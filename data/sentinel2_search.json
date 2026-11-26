@@ -1,0 +1,20 @@
+[
+    {
+        "id": "S2C_MSIL2A_20261105T105221_N0513_R051_T31TCJ_20261105T143306",
+        "date": "2026-11-05T10:52:21.025000Z",
+        "cloud_cover": 57.55,
+        "collection": "sentinel-2-l2a"
+    },
+    {
+        "id": "S2B_MSIL2A_20261031T105159_N0513_R051_T31TCJ_20261031T132327",
+        "date": "2026-10-31T10:51:59.024000Z",
+        "cloud_cover": 2.14,
+        "collection": "sentinel-2-l2a"
+    },
+    {
+        "id": "S2A_MSIL2A_20261028T105051_N0513_R051_T31TCJ_20261028T171310",
+        "date": "2026-10-28T10:50:51.024000Z",
+        "cloud_cover": 6.71,
+        "collection": "sentinel-2-l2a"
+    }
+]

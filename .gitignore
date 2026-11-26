@@ -1,0 +1,29 @@
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# Secrets
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Satellite raw data
+data/satellite/raw/
+
+# Processed satellite rasters
+data/satellite/processed/*.tif
+data/satellite/processed/**/*.tif
+
+# Temporary files
+*.log
+#ignorer les fichier générer par GDAL
+*.aux.xml
+*.aux.xml

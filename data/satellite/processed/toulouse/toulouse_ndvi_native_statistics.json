@@ -1,0 +1,43 @@
+{
+    "city": "Toulouse",
+    "acquisition_id": "S2B_MSIL2A_20261031T105159_N0513_R051_T31TCJ_20261031T132327",
+    "acquisition_date": "2026-10-31T10:51:59.024000Z",
+    "cloud_cover": 2.14,
+    "crs": "EPSG:32631",
+    "resolution_m": 10,
+    "width": 332,
+    "height": 451,
+    "valid_scl_classes": [
+        4,
+        5,
+        6
+    ],
+    "total_pixels": 149732,
+    "valid_pixels": 149732,
+    "invalid_pixels": 0,
+    "valid_percentage": 100.0,
+    "ndvi_mean": 0.16175277531147003,
+    "ndvi_min": -0.1570080816745758,
+    "ndvi_max": 0.6233062148094177,
+    "ndvi_std": 0.11541083455085754,
+    "classes": {
+        "vegetation": {
+            "pixels": 20832,
+            "ndvi_mean": 0.35257431864738464,
+            "ndvi_min": 0.005020920652896166,
+            "ndvi_max": 0.6233062148094177
+        },
+        "bare_soil": {
+            "pixels": 123048,
+            "ndvi_mean": 0.1355728805065155,
+            "ndvi_min": -0.1570080816745758,
+            "ndvi_max": 0.4913732707500458
+        },
+        "water": {
+            "pixels": 5852,
+            "ndvi_mean": 0.03293996304273605,
+            "ndvi_min": -0.09212376922369003,
+            "ndvi_max": 0.4811980128288269
+        }
+    }
+}

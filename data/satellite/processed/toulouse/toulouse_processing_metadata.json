@@ -1,0 +1,30 @@
+{
+    "acquisition_id": "S2B_MSIL2A_20261031T105159_N0513_R051_T31TCJ_20261031T132327",
+    "acquisition_date": "2026-10-31T10:51:59.024000Z",
+    "cloud_cover": 2.14,
+    "city": "Toulouse",
+    "bbox_epsg4326": [
+        1.4242,
+        43.5845,
+        1.4642,
+        43.6245
+    ],
+    "crs": "EPSG:32631",
+    "resolution_m": 10,
+    "width": 332,
+    "height": 451,
+    "bands": [
+        "B02_10m",
+        "B03_10m",
+        "B04_10m",
+        "B08_10m",
+        "SCL_10m"
+    ],
+    "processed_files": [
+        "toulouse_B02_10m.tif",
+        "toulouse_B03_10m.tif",
+        "toulouse_B04_10m.tif",
+        "toulouse_B08_10m.tif",
+        "toulouse_SCL_10m.tif"
+    ]
+}
