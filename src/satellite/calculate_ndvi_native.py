@@ -5,10 +5,8 @@ import matplotlib.pyplot as plt
 
 from pathlib import Path
 
-
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
+
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -31,10 +29,7 @@ STATS_FILE = INPUT_DIR / "toulouse_ndvi_native_statistics.json"
 VALID_CLASSES = [4, 5, 6]
 NODATA_VALUE = -9999.0
 
-
-# ==========================================
 # 2. VERIFICATION DES FICHIERS
-# ==========================================
 
 required_files = [
     SELECTED_FILE,
@@ -51,10 +46,8 @@ for filepath in required_files:
             f"Fichier introuvable : {filepath}"
         )
 
-
-# ==========================================
 # 3. IDENTIFICATION DE L'ACQUISITION
-# ==========================================
+
 
 with open(SELECTED_FILE, "r", encoding="utf-8") as file:
     selected_product = json.load(file)
@@ -72,16 +65,14 @@ if acquisition_id != processing_metadata["acquisition_id"]:
 
 acquisition_date = selected_product["date"]
 
-print("\n========== CALCUL NDVI SENTINEL-2 ==========")
+print("\n== CALCUL NDVI SENTINEL-2 ==")
 
 print("Acquisition :", acquisition_id)
 print("Date :", acquisition_date)
 print("Couverture nuageuse :", selected_product.get("cloud_cover"), "%")
 
-
-# ==========================================
 # 4. VERIFICATION DES METADONNEES
-# ==========================================
+
 
 if processing_metadata["city"] != "Toulouse":
     raise ValueError("Ville incorrecte dans les métadonnées.")
@@ -97,10 +88,8 @@ expected_height = processing_metadata["height"]
 
 print("\nMétadonnées du découpage : OK")
 
-
-# ==========================================
 # 5. LECTURE DES IMAGES
-# ==========================================
+
 
 with rasterio.open(RED_FILE) as src:
 
@@ -149,7 +138,7 @@ if red_shape != (expected_height, expected_width):
 if red_crs.to_string() != processing_metadata["crs"]:
     raise ValueError("Projection différente des métadonnées.")
 
-print("\n========== VERIFICATION DES IMAGES ==========")
+print("\n==VERIFICATION DES IMAGES ==")
 
 print("Dimensions :", red.shape)
 print("Projection :", red_crs)
@@ -159,10 +148,8 @@ print("B04 : OK")
 print("B08 : OK")
 print("SCL : OK")
 
-
-# ==========================================
 # 6. CREATION DU MASQUE SCL
-# ==========================================
+
 
 valid_mask = np.isin(scl, VALID_CLASSES)
 
@@ -182,17 +169,13 @@ invalid_pixels = total_pixels - valid_pixels
 if valid_pixels == 0:
     raise ValueError("Aucun pixel valide.")
 
-print("\n========== MASQUE SCL ==========")
+print("\n===MASQUE SCL ===")
 
 print("Classes conservées :", VALID_CLASSES)
 print("Pixels totaux :", total_pixels)
 print("Pixels valides :", valid_pixels)
 print("Pixels exclus :", invalid_pixels)
-
-
-# ==========================================
 # 7. CALCUL DU NDVI
-# ==========================================
 
 ndvi = np.full(
     red.shape,
@@ -211,17 +194,14 @@ ndvi_min = float(valid_values.min())
 ndvi_max = float(valid_values.max())
 ndvi_std = float(valid_values.std())
 
-print("\n========== STATISTIQUES NDVI ==========")
+print("\n===STATISTIQUES NDVI ===")
 
 print("NDVI minimum :", ndvi_min)
 print("NDVI maximum :", ndvi_max)
 print("NDVI moyen :", ndvi_mean)
 print("NDVI écart-type :", ndvi_std)
 
-
-# ==========================================
 # 8. SAUVEGARDE DU RASTER NDVI
-# ==========================================
 
 profile.update(
     driver="GTiff",
@@ -236,10 +216,7 @@ with rasterio.open(NDVI_FILE, "w", **profile) as dst:
 
 print("\nRaster NDVI créé :", NDVI_FILE.name)
 
-
-# ==========================================
 # 9. VISUALISATION
-# ==========================================
 
 ndvi_display = np.where(
     valid_mask,
@@ -276,10 +253,7 @@ plt.close()
 
 print("Carte NDVI créée :", PNG_FILE.name)
 
-
-# ==========================================
 # 10. STATISTIQUES PAR CLASSE SCL
-# ==========================================
 
 class_names = {
     4: "vegetation",
@@ -302,10 +276,7 @@ for class_id, class_name in class_names.items():
         "ndvi_max": float(values.max()) if values.size else None
     }
 
-
-# ==========================================
 # 11. STATISTIQUES GENERALES
-# ==========================================
 
 statistics = {
 
@@ -347,9 +318,8 @@ statistics = {
 }
 
 
-# ==========================================
 # 12. ENREGISTREMENT JSON
-# ==========================================
+
 
 with open(STATS_FILE, "w", encoding="utf-8") as file:
 
@@ -362,12 +332,10 @@ with open(STATS_FILE, "w", encoding="utf-8") as file:
 
 print("\nStatistiques enregistrées :", STATS_FILE.name)
 
-
-# ==========================================
 # 13. BILAN FINAL
-# ==========================================
 
-print("\n========== STATISTIQUES PAR CLASSE ==========")
+
+print("\n===STATISTIQUES PAR CLASSE ===")
 
 for class_name, values in class_statistics.items():
 
@@ -378,7 +346,7 @@ for class_name, values in class_statistics.items():
     print("NDVI moyen :", values["ndvi_mean"])
 
 
-print("\n========== TRAITEMENT TERMINE AVEC SUCCES ==========")
+print("\n=== TRAITEMENT TERMINE AVEC SUCCES ===")
 
 print("Acquisition :", acquisition_id)
 
