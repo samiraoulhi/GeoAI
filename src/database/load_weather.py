@@ -4,11 +4,7 @@ import psycopg2
 
 from pathlib import Path
 from dotenv import load_dotenv
-
-
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = BASE_DIR / "data"
@@ -20,10 +16,7 @@ load_dotenv(BASE_DIR / ".env")
 HOURLY_FILE = DATA_DIR / "weather_toulouse_clean.csv"
 DAILY_FILE = DATA_DIR / "weather_toulouse_daily_clean.csv"
 
-
-# ==========================================
 # 2. CONNEXION POSTGRESQL
-# ==========================================
 
 conn = psycopg2.connect(
     host=os.getenv("DB_HOST"),
@@ -39,10 +32,8 @@ print("Connexion à PostgreSQL réussie !")
 
 
 try:
-
-    # ======================================
     # 3. RECUPERATION DE L'IDENTIFIANT VILLE
-    # ======================================
+  
 
     cursor.execute("""
         SELECT id
@@ -59,11 +50,8 @@ try:
 
     print("Ville identifiée : Toulouse")
     print("City ID :", city_id)
-
-
-    # ======================================
     # 4. FONCTION DE CONVERSION
-    # ======================================
+
 
     def convert_value(value, integer=False):
 
@@ -79,9 +67,8 @@ try:
         return value
 
 
-    # ======================================
     # 5. IMPORTATION DES PREVISIONS HORAIRES
-    # ======================================
+ 
 
     print("\nImportation des prévisions horaires...")
 
@@ -172,10 +159,8 @@ try:
     print("Lignes horaires traitées :", len(hourly_rows))
     print("Lignes horaires insérées :", cursor.rowcount)
 
-
-    # ======================================
     # 6. IMPORTATION DES PREVISIONS QUOTIDIENNES
-    # ======================================
+ 
 
     print("\nImportation des prévisions quotidiennes...")
 
@@ -276,10 +261,7 @@ try:
     print("Lignes quotidiennes traitées :", len(daily_rows))
     print("Lignes quotidiennes insérées :", cursor.rowcount)
 
-
-    # ======================================
     # 7. VALIDATION
-    # ======================================
 
     conn.commit()
 
