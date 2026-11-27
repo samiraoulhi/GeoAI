@@ -6,10 +6,7 @@ import time
 from pathlib import Path
 from datetime import datetime
 
-
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parents[1]
 
@@ -32,9 +29,8 @@ env["MPLBACKEND"] = "Agg"
 env["PYTHONUNBUFFERED"] = "1"
 
 
-# ==========================================
 # 2. DEMARRAGE
-# ==========================================
+
 
 pipeline_start = time.perf_counter()
 
@@ -51,9 +47,9 @@ print(
 print("\nNombre d'étapes :", len(SCRIPTS), flush=True)
 
 
-# ==========================================
+
 # 3. EXECUTION DES SCRIPTS
-# ==========================================
+
 
 for index, script in enumerate(SCRIPTS, start=1):
 
@@ -115,9 +111,9 @@ for index, script in enumerate(SCRIPTS, start=1):
         sys.exit(130)
 
 
-# ==========================================
+
 # 4. BILAN FINAL
-# ==========================================
+
 
 total_duration = time.perf_counter() - pipeline_start
 
