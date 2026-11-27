@@ -5,9 +5,7 @@ import requests
 from pathlib import Path
 from dotenv import load_dotenv
 
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -33,9 +31,7 @@ if not USERNAME or not PASSWORD:
         "Identifiants du compte CDSE absents du fichier .env"
     )
 
-# ==========================================
 # 2. CHARGEMENT DU PRODUIT
-# ==========================================
 
 with open(PRODUCT_FILE, "r", encoding="utf-8") as file:
     product = json.load(file)
@@ -43,9 +39,7 @@ with open(PRODUCT_FILE, "r", encoding="utf-8") as file:
 print("Produit :", product["id"])
 print("Date :", product["acquisition_date"])
 
-# ==========================================
 # 3. AUTHENTIFICATION ODATA CDSE
-# ==========================================
 
 print("\nAuthentification OData CDSE...")
 
@@ -73,10 +67,7 @@ headers = {
 }
 
 print("Authentification OData réussie !")
-
-# ==========================================
 # 4. TELECHARGEMENT DES ASSETS
-# ==========================================
 
 for asset_name, asset_info in product["assets"].items():
 
@@ -144,5 +135,4 @@ for asset_name, asset_info in product["assets"].items():
         f"{downloaded / (1024 ** 2):.2f} Mo"
     )
 
-print("\n========== TÉLÉCHARGEMENT TERMINÉ ==========")
 print("Dossier :", OUTPUT_DIR)
