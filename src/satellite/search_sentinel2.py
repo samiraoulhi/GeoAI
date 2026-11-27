@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 from datetime import datetime, timedelta, timezone
 
-# =====================================
 # CONFIGURATION
-# =====================================
+
+
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -20,9 +20,7 @@ MAX_CLOUD_COVER = 60
 end_date = datetime.now(timezone.utc)
 start_date = end_date - timedelta(days=30)
 
-# =====================================
 # RECHERCHE STAC
-# =====================================
 
 payload = {
     "collections": ["sentinel-2-l2a"],
@@ -53,9 +51,8 @@ response.raise_for_status()
 data = response.json()
 features = data.get("features", [])
 
-# =====================================
 # FILTRAGE
-# =====================================
+
 
 images = []
 
@@ -73,15 +70,14 @@ for feature in features:
             "collection": feature.get("collection")
         })
 
-# =====================================
 # SELECTION DE LA MEILLEURE IMAGE
-# =====================================
+
 
 images.sort(
     key=lambda x: x["cloud_cover"]
 )
 
-print("\n========== RÉSULTATS ==========")
+print("\n== RÉSULTATS ==")
 print("Images trouvées :", len(features))
 print("Images après filtrage :", len(images))
 
@@ -90,7 +86,7 @@ if not images:
 
 selected_image = images[0]
 
-print("\n========== IMAGE SÉLECTIONNÉE ==========")
+print("\n==IMAGE SÉLECTIONNÉE ==")
 print("ID :", selected_image["id"])
 print("Date :", selected_image["date"])
 print("Nuages :", selected_image["cloud_cover"], "%")
