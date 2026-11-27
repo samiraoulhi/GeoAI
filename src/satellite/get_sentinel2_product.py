@@ -3,9 +3,7 @@ import requests
 
 from pathlib import Path
 
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -17,9 +15,7 @@ STAC_URL = (
     "sentinel-2-l2a/items/"
 )
 
-# ==========================================
 # 2. CHARGEMENT DE L'IDENTIFIANT
-# ==========================================
 
 with open(SELECTED_FILE, "r", encoding="utf-8") as file:
     selected = json.load(file)
@@ -28,9 +24,8 @@ product_id = selected["id"]
 
 print("Produit sélectionné :", product_id)
 
-# ==========================================
 # 3. RECUPERATION DES METADONNEES
-# ==========================================
+
 
 url = STAC_URL + product_id
 
@@ -42,9 +37,7 @@ product = response.json()
 if product.get("id") != product_id:
     raise ValueError("L'identifiant du produit ne correspond pas.")
 
-# ==========================================
 # 4. EXTRACTION DES ASSETS
-# ==========================================
 
 required_assets = [
     "B02_10m",
@@ -82,9 +75,8 @@ for asset_name in required_assets:
         "local_path": asset.get("file:local_path")
     }
 
-# ==========================================
 # 5. SAUVEGARDE
-# ==========================================
+
 
 output = {
     "id": product["id"],
@@ -98,18 +90,14 @@ output = {
 with open(OUTPUT_FILE, "w", encoding="utf-8") as file:
     json.dump(output, file, indent=4, ensure_ascii=False)
 
-# ==========================================
 # 6. AFFICHAGE DES INFORMATIONS
-# ==========================================
 
-print("\n========== PRODUIT SENTINEL-2 ==========")
 
 print("Identifiant :", output["id"])
 print("Date d'acquisition :", output["acquisition_date"])
 print("Couverture nuageuse :", output["cloud_cover"], "%")
 print("Projection :", output["crs"])
 
-print("\n========== ASSETS DISPONIBLES ==========")
 
 total_size = 0
 
@@ -134,7 +122,6 @@ for name, info in result.items():
 
     print(f"Chemin produit : {info['local_path']}")
 
-print("\n========== BILAN ==========")
 
 print(
     f"Taille totale des 5 assets : "
