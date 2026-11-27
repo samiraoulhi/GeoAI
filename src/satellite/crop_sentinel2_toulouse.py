@@ -8,10 +8,8 @@ from rasterio.windows import from_bounds, Window
 from rasterio.warp import transform_bounds, reproject, Resampling
 from rasterio.crs import CRS
 
-
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
+
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -58,9 +56,8 @@ EXPECTED_OUTPUTS = [
 METADATA_OUTPUT = OUTPUT_DIR / "toulouse_processing_metadata.json"
 
 
-# ==========================================
 # 2. FONCTIONS UTILITAIRES
-# ==========================================
+
 
 def get_acquisition_id(product, selected):
 
@@ -98,12 +95,7 @@ def get_asset_file(product, band_name):
 
     return filepath
 
-
-# ==========================================
 # 3. CHARGEMENT DES METADONNEES
-# ==========================================
-
-print("\n========== CHARGEMENT DES METADONNEES ==========")
 
 if not PRODUCT_FILE.exists():
     raise FileNotFoundError(PRODUCT_FILE)
@@ -126,12 +118,8 @@ for band in BANDS_10M + [SCL_BAND]:
     filepath = get_asset_file(product, band)
     print(f"{band} : OK - {filepath.name}")
 
-
-# ==========================================
 # 4. NETTOYAGE DES ANCIENS RESULTATS
-# ==========================================
 
-print("\n========== NETTOYAGE DES ANCIENS RESULTATS ==========")
 
 for filepath in EXPECTED_OUTPUTS + [METADATA_OUTPUT]:
 
@@ -140,9 +128,8 @@ for filepath in EXPECTED_OUTPUTS + [METADATA_OUTPUT]:
         print("Ancien fichier supprimé :", filepath.name)
 
 
-# ==========================================
 # 5. CONVERSION DES COORDONNEES
-# ==========================================
+
 
 projected_bounds = transform_bounds(
     SOURCE_CRS,
@@ -151,15 +138,13 @@ projected_bounds = transform_bounds(
     densify_pts=21
 )
 
-print("\n========== DECOUPAGE SENTINEL-2 ==========")
 
 print("\nEmprise Toulouse en EPSG:32631 :")
 print(projected_bounds)
 
 
-# ==========================================
 # 6. CALCUL DE LA FENETRE DE DECOUPAGE
-# ==========================================
+
 
 reference_file = get_asset_file(product, "B04_10m")
 
@@ -231,12 +216,8 @@ print(reference_width, "x", reference_height)
 
 print("Projection :", TARGET_CRS)
 
-
-# ==========================================
 # 7. DECOUPAGE DES BANDES SPECTRALES 10 M
-# ==========================================
 
-print("\n========== BANDES SPECTRALES 10 M ==========")
 
 for band_name in BANDS_10M:
 
@@ -285,11 +266,8 @@ for band_name in BANDS_10M:
     print("Dimensions :", data.shape)
 
 
-# ==========================================
 # 8. REECHANTILLONNAGE DE SCL A 10 M
-# ==========================================
 
-print("\n========== TRAITEMENT SCL ==========")
 
 scl_input = get_asset_file(product, SCL_BAND)
 
@@ -330,11 +308,9 @@ print("SCL rééchantillonnée à 10 m.")
 print("Fichier créé :", scl_output.name)
 
 
-# ==========================================
-# 9. VERIFICATION FINALE
-# ==========================================
 
-print("\n========== VERIFICATION FINALE ==========")
+# 9. VERIFICATION FINALE
+
 
 for filepath in EXPECTED_OUTPUTS:
 
@@ -364,9 +340,9 @@ for filepath in EXPECTED_OUTPUTS:
             raise ValueError("Transformation incorrecte après découpage.")
 
 
-# ==========================================
+
 # 10. SAUVEGARDE DES METADONNEES
-# ==========================================
+
 
 metadata = {
     "acquisition_id": acquisition_id,
@@ -392,5 +368,3 @@ with open(METADATA_OUTPUT, "w", encoding="utf-8") as file:
 
 print("\nMétadonnées enregistrées :")
 print(METADATA_OUTPUT)
-
-print("\n========== DECOUPAGE TERMINE AVEC SUCCES ==========")
