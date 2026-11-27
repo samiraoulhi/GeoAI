@@ -3,10 +3,8 @@ import rasterio
 
 from pathlib import Path
 
-
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
+
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -26,10 +24,8 @@ REQUIRED_ASSETS = [
 
 EXPECTED_CRS = "EPSG:32631"
 
-
-# ==========================================
 # 2. CHARGEMENT DES METADONNEES
-# ==========================================
+
 
 if not PRODUCT_FILE.exists():
     raise FileNotFoundError(PRODUCT_FILE)
@@ -39,13 +35,11 @@ with open(PRODUCT_FILE, "r", encoding="utf-8") as file:
 
 assets = product["assets"]
 
-print("\n========== VALIDATION SENTINEL-2 ==========")
+print("\n==VALIDATION SENTINEL-2 ==")
 print("Produit :", product["id"])
 
-
-# ==========================================
 # 3. VERIFICATION DES ASSETS
-# ==========================================
+
 
 errors = []
 
@@ -105,12 +99,8 @@ for asset_name in REQUIRED_ASSETS:
 
     print("Validation individuelle terminée.")
 
-
-# ==========================================
 # 4. BILAN
-# ==========================================
 
-print("\n========== BILAN DE VALIDATION ==========")
 
 if errors:
 
@@ -124,4 +114,3 @@ if errors:
     )
 
 print("Tous les assets sont valides.")
-print("\n========== VALIDATION TERMINÉE ==========")
