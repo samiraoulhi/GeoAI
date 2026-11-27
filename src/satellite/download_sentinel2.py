@@ -9,9 +9,7 @@ from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from rasterio.io import MemoryFile
 
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -46,11 +44,8 @@ OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
 OUTPUT_FILE = OUTPUT_DIR / "toulouse_sentinel2_bands_scl.tif"
 
-# ==========================================
 # 2. CHARGEMENT DE L'ACQUISITION
-# ==========================================
 
-print("\n========== ACQUISITION SELECTIONNEE ==========")
 
 if not SELECTED_FILE.exists():
     raise FileNotFoundError(
@@ -84,11 +79,7 @@ print("Couverture nuageuse :", selected_image["cloud_cover"], "%")
 print("Début UTC :", start_date.isoformat())
 print("Fin UTC :", end_date.isoformat())
 
-# ==========================================
 # 3. AUTHENTIFICATION
-# ==========================================
-
-print("\n========== AUTHENTIFICATION ==========")
 
 if not CLIENT_ID or not CLIENT_SECRET:
     raise ValueError(
@@ -114,9 +105,8 @@ if not access_token:
 
 print("Authentification réussie.")
 
-# ==========================================
 # 4. EVALSCRIPT SENTINEL-2
-# ==========================================
+
 
 evalscript = """
 //VERSION=3
@@ -144,9 +134,7 @@ function evaluatePixel(sample) {
 }
 """
 
-# ==========================================
 # 5. PREPARATION DE LA REQUETE
-# ==========================================
 
 payload = {
     "input": {
@@ -180,11 +168,7 @@ payload = {
     "evalscript": evalscript
 }
 
-# ==========================================
 # 6. TELECHARGEMENT
-# ==========================================
-
-print("\n========== TELECHARGEMENT SENTINEL-2 ==========")
 
 headers = {
     "Authorization": f"Bearer {access_token}",
@@ -208,12 +192,7 @@ if len(response.content) < 10000:
         f"Réponse trop petite : {len(response.content)} octets. "
         "Fichier non enregistré."
     )
-
-# ==========================================
 # 7. VALIDATION DU TIFF EN MEMOIRE
-# ==========================================
-
-print("\n========== VALIDATION DU TIFF ==========")
 
 try:
     with MemoryFile(response.content) as memory_file:
@@ -274,9 +253,8 @@ except Exception as error:
         f"Validation du TIFF échouée : {error}"
     ) from error
 
-# ==========================================
 # 8. SAUVEGARDE APRES VALIDATION
-# ==========================================
+
 
 with open(OUTPUT_FILE, "wb") as file:
     file.write(response.content)
@@ -287,4 +265,4 @@ print("Taille :", round(OUTPUT_FILE.stat().st_size / 1024, 2), "Ko")
 print("Dimensions :", WIDTH, "x", HEIGHT)
 print("Nombre de bandes :", EXPECTED_BANDS)
 
-print("\n========== FIN ==========")
+
