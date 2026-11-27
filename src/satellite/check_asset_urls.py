@@ -26,7 +26,7 @@ selected_assets = [
     "thumbnail"
 ]
 
-print("\n========== LIENS DES ASSETS ==========")
+print("\n==LIENS DES ASSETS ==")
 
 for name in selected_assets:
 
