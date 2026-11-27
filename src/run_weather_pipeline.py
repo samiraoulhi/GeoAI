@@ -13,7 +13,7 @@ scripts = [
     "src/database/load_weather.py"
 ]
 
-print("\n========== GEOAI WEATHER PIPELINE ==========\n")
+print("\n===GEOAI WEATHER PIPELINE ===\n")
 
 for script in scripts:
     script_path = BASE_DIR / script
@@ -28,4 +28,4 @@ for script in scripts:
 
     print(f">>> Terminé : {script}")
 
-print("\n========== PIPELINE TERMINÉ AVEC SUCCÈS ==========")
+print("\n===PIPELINE TERMINÉ AVEC SUCCÈS ===")
