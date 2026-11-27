@@ -8,10 +8,8 @@ from pathlib import Path
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 
-
-# =====================================
 # 1. CONFIGURATION
-# =====================================
+
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
@@ -26,11 +24,7 @@ JSON_FILE = (
     / "toulouse_ndvi_native_statistics.json"
 )
 
-
-# =====================================
 # 2. LECTURE DES STATISTIQUES
-# =====================================
-
 with open(JSON_FILE, "r", encoding="utf-8") as file:
     stats = json.load(file)
 
@@ -40,10 +34,7 @@ print("Ville :", stats["city"])
 print("Acquisition :", stats["acquisition_id"])
 print("NDVI moyen :", stats["ndvi_mean"])
 
-
-# =====================================
 # 3. EXTRACTION DES INFORMATIONS
-# =====================================
 
 acquisition_id = stats["acquisition_id"]
 
@@ -67,10 +58,8 @@ vegetation_pixels = classes["vegetation"]["pixels"]
 bare_soil_pixels = classes["bare_soil"]["pixels"]
 water_pixels = classes["water"]["pixels"]
 
-
-# =====================================
 # 4. CONNEXION POSTGRESQL
-# =====================================
+
 
 conn = psycopg2.connect(
     host=os.getenv("DB_HOST"),
@@ -84,10 +73,7 @@ cursor = conn.cursor()
 
 
 try:
-
-    # =====================================
     # 5. IDENTIFICATION DE LA VILLE
-    # =====================================
 
     cursor.execute(
         """
@@ -104,11 +90,8 @@ try:
         raise ValueError("Toulouse n'existe pas dans la table cities.")
 
     city_id = result[0]
-
-
-    # =====================================
     # 6. INSERTION OU MISE A JOUR
-    # =====================================
+ 
 
     cursor.execute(
         """
@@ -171,10 +154,7 @@ try:
     )
 
     result = cursor.fetchone()
-
-    # =====================================
     # 7. VALIDATION
-    # =====================================
 
     conn.commit()
 
