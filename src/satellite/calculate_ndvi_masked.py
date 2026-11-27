@@ -37,7 +37,7 @@ ndvi[valid_mask] = (
 )
 
 # Statistiques
-print("\n========== NDVI AVEC MASQUE SCL ==========")
+print("\n=== NDVI AVEC MASQUE SCL ===")
 print("Pixels valides :", np.sum(valid_mask))
 print("Pixels masqués :", np.sum(~valid_mask))
 print("Pourcentage valide :", round(100 * np.mean(valid_mask), 2), "%")
