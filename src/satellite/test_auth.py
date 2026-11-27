@@ -15,7 +15,7 @@ TOKEN_URL = (
     "realms/CDSE/protocol/openid-connect/token"
 )
 
-print("\n========== TEST AUTHENTIFICATION COPERNICUS ==========\n")
+print("\n==TEST AUTHENTIFICATION COPERNICUS ==\n")
 
 if not CLIENT_ID or not CLIENT_SECRET:
     print("ERREUR : identifiants absents du fichier .env")
@@ -51,4 +51,4 @@ except requests.exceptions.HTTPError:
 except requests.exceptions.RequestException as error:
     print("Erreur de connexion :", error)
 
-print("\n========== FIN DU TEST ==========")
+print("\n== FIN DU TEST ==")
