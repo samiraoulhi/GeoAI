@@ -1,9 +1,6 @@
 import pandas as pd
 from pathlib import Path
-
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = BASE_DIR / "data"
@@ -87,10 +84,8 @@ DAILY_RULES = {
     "shortwave_radiation_sum": (0, None)
 }
 
-
-# ==========================================
 # 2. FONCTION DE NETTOYAGE
-# ==========================================
+
 
 def clean_weather_file(
     input_name,
@@ -115,10 +110,8 @@ def clean_weather_file(
     df = pd.read_csv(input_file)
 
     print("Dimensions initiales :", df.shape)
-
-    # --------------------------------------
     # CONVERSION DES DATES
-    # --------------------------------------
+
 
     df["time"] = pd.to_datetime(
         df["time"],
@@ -131,10 +124,7 @@ def clean_weather_file(
             errors="coerce",
             utc=True
         )
-
-    # --------------------------------------
     # CONVERSION NUMERIQUE
-    # --------------------------------------
 
     for column in numeric_columns:
 
@@ -144,9 +134,9 @@ def clean_weather_file(
                 errors="coerce"
             )
 
-    # --------------------------------------
+
     # SUPPRESSION DES DATES INVALIDES
-    # --------------------------------------
+
 
     before = len(df)
 
@@ -157,9 +147,8 @@ def clean_weather_file(
         before - len(df)
     )
 
-    # --------------------------------------
     # SUPPRESSION DES DOUBLONS
-    # --------------------------------------
+ 
 
     before = len(df)
 
@@ -170,9 +159,8 @@ def clean_weather_file(
         before - len(df)
     )
 
-    # --------------------------------------
     # CORRECTION DES VALEURS HORS LIMITES
-    # --------------------------------------
+
 
     for column, limits in rules.items():
 
@@ -202,15 +190,13 @@ def clean_weather_file(
 
             df.loc[invalid, column] = float("nan")
 
-    # --------------------------------------
     # TRI CHRONOLOGIQUE
-    # --------------------------------------
+
 
     df = df.sort_values("time")
 
-    # --------------------------------------
+
     # ENREGISTREMENT
-    # --------------------------------------
 
     df.to_csv(output_file, index=False)
 
@@ -219,12 +205,8 @@ def clean_weather_file(
     print("Fichier nettoyé :", output_file)
     print("Nettoyage terminé !")
 
-
-# ==========================================
 # 3. NETTOYAGE DES DEUX FICHIERS
-# ==========================================
 
-print("\n========== NETTOYAGE DES DONNEES METEO ==========")
 
 # Données horaires
 clean_weather_file(
