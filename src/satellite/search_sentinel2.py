@@ -91,9 +91,8 @@ print("ID :", selected_image["id"])
 print("Date :", selected_image["date"])
 print("Nuages :", selected_image["cloud_cover"], "%")
 
-# =====================================
 # SAUVEGARDE
-# =====================================
+
 
 output_path = BASE_DIR / "data" / "sentinel2_selected.json"
 
