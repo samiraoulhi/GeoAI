@@ -4,9 +4,8 @@ import pandas as pd
 from pathlib import Path
 from datetime import datetime, timezone
 
-# ==========================================
 # 1. CONFIGURATION DE LA VILLE
-# ==========================================
+
 
 CITY = "Toulouse"
 COUNTRY = "France"
@@ -23,9 +22,8 @@ DATA_DIR = BASE_DIR / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 
-# ==========================================
 # 2. VARIABLES METEOROLOGIQUES HORAIRES
-# ==========================================
+
 
 hourly_variables = [
     "temperature_2m",
@@ -48,9 +46,8 @@ hourly_variables = [
 ]
 
 
-# ==========================================
 # 3. VARIABLES METEOROLOGIQUES QUOTIDIENNES
-# ==========================================
+
 
 daily_variables = [
     "weather_code",
@@ -73,9 +70,9 @@ daily_variables = [
 ]
 
 
-# ==========================================
+
 # 4. PARAMETRES DE LA REQUETE
-# ==========================================
+
 
 params = {
     "latitude": LATITUDE,
@@ -86,10 +83,8 @@ params = {
     "forecast_days": 10
 }
 
-
-# ==========================================
 # 5. RECUPERATION DES DONNEES
-# ==========================================
+
 
 print("Connexion à Open-Meteo...")
 
@@ -109,10 +104,9 @@ try:
 
     print("Données récupérées avec succès !")
 
-
-    # ==========================================
     # 6. TRAITEMENT DES DONNEES HORAIRES
-    # ==========================================
+   
+    
 
     df_hourly = pd.DataFrame(data["hourly"])
 
@@ -127,9 +121,12 @@ try:
     df_hourly.to_csv(hourly_file, index=False)
 
 
-    # ==========================================
+
+
+    
     # 7. TRAITEMENT DES DONNEES QUOTIDIENNES
-    # ==========================================
+  
+    
 
     df_daily = pd.DataFrame(data["daily"])
 
@@ -142,13 +139,10 @@ try:
     daily_file = DATA_DIR / "weather_toulouse_daily.csv"
 
     df_daily.to_csv(daily_file, index=False)
-
-
-    # ==========================================
     # 8. AFFICHAGE DES RESULTATS
-    # ==========================================
+    
 
-    print("\n========== RESULTATS ==========")
+    
 
     print("\nDonnées horaires :")
     print(df_hourly.head())
