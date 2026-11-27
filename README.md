@@ -222,9 +222,7 @@ Configure environment variables:
 cp .env.example .env
 ```
 
-Update `.env` with your own Copernicus and PostgreSQL credentials.
 
-**Never commit your `.env` file or expose your credentials.**
 
 ## 📊 Current Project Status
 
