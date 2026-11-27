@@ -71,4 +71,4 @@ plt.show()
 
 print("\nCarte sauvegardée :", output_tif)
 print("Image sauvegardée :", output_png)
-print("\n========== TERMINÉ ==========")
+
