@@ -10,7 +10,7 @@ with rasterio.open(IMAGE_PATH) as src:
     green = src.read(2)
     blue = src.read(3)
 
-print("========== INFORMATIONS IMAGE ==========")
+print("=== INFORMATIONS IMAGE ===")
 
 for name, band in [
     ("Rouge", red),
