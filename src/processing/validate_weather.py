@@ -1,9 +1,7 @@
 import pandas as pd
 from pathlib import Path
 
-# ==========================================
 # 1. CONFIGURATION
-# ==========================================
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_DIR = BASE_DIR / "data"
@@ -69,10 +67,8 @@ DAILY_RULES = {
     "shortwave_radiation_sum": (0, None)
 }
 
-
-# ==========================================
 # 2. FONCTION DE VALIDATION
-# ==========================================
+
 
 def validate_file(filename, required_columns, rules):
 
@@ -90,19 +86,13 @@ def validate_file(filename, required_columns, rules):
 
     # Charger les données
     df = pd.read_csv(file_path)
-
-    # --------------------------------------
     # DIMENSIONS
-    # --------------------------------------
 
     print("\n1. DIMENSIONS")
 
     print("Nombre de lignes :", df.shape[0])
     print("Nombre de colonnes :", df.shape[1])
-
-    # --------------------------------------
     # COLONNES OBLIGATOIRES
-    # --------------------------------------
 
     print("\n2. VERIFICATION DES COLONNES")
 
@@ -115,10 +105,7 @@ def validate_file(filename, required_columns, rules):
         print("Colonnes manquantes :", missing_columns)
     else:
         print("Toutes les colonnes indispensables sont présentes.")
-
-    # --------------------------------------
     # VALEURS MANQUANTES
-    # --------------------------------------
 
     print("\n3. VALEURS MANQUANTES")
 
@@ -131,9 +118,7 @@ def validate_file(filename, required_columns, rules):
         missing_values.sum()
     )
 
-    # --------------------------------------
     # DOUBLONS
-    # --------------------------------------
 
     print("\n4. VERIFICATION DES DOUBLONS")
 
@@ -149,9 +134,7 @@ def validate_file(filename, required_columns, rules):
             df["time"].duplicated().sum()
         )
 
-    # --------------------------------------
     # VERIFICATION DES DATES
-    # --------------------------------------
 
     print("\n5. VERIFICATION DES DATES")
 
@@ -169,12 +152,11 @@ def validate_file(filename, required_columns, rules):
         if invalid_dates == 0:
             print("Première date :", dates.min())
             print("Dernière date :", dates.max())
-
-    # --------------------------------------
+            
     # VALEURS METEOROLOGIQUES
-    # --------------------------------------
 
-    print("\n6. VERIFICATION DES VALEURS INCOHERENTES")
+
+  
 
     for column, limits in rules.items():
 
@@ -211,9 +193,8 @@ def validate_file(filename, required_columns, rules):
             f"{non_numeric} valeur(s) non numérique(s)"
         )
 
-    # --------------------------------------
     # COHERENCE ENTRE TEMPERATURES
-    # --------------------------------------
+  
 
     if (
         "temperature_2m_max" in df.columns
@@ -239,10 +220,8 @@ def validate_file(filename, required_columns, rules):
             "à la température minimale :",
             inconsistent
         )
-
-    # --------------------------------------
     # STATISTIQUES
-    # --------------------------------------
+  
 
     print("\n7. STATISTIQUES DESCRIPTIVES")
 
@@ -250,9 +229,8 @@ def validate_file(filename, required_columns, rules):
         df.select_dtypes(include="number").describe()
     )
 
-    # --------------------------------------
     # INFORMATIONS SUR LA COLLECTE
-    # --------------------------------------
+  
 
     print("\n8. INFORMATIONS SUR LA COLLECTE")
 
@@ -268,11 +246,9 @@ def validate_file(filename, required_columns, rules):
     print("\nCONTROLE TERMINE POUR :", filename)
 
 
-# ==========================================
 # 3. EXECUTION DES DEUX CONTROLES
-# ==========================================
 
-print("\n========== CONTROLE QUALITE METEO ==========")
+print("\n= CONTROLE QUALITE METEO ==")
 
 validate_file(
     "weather_toulouse.csv",
@@ -286,4 +262,4 @@ validate_file(
     DAILY_RULES
 )
 
-print("\n========== TOUS LES CONTROLES SONT TERMINES ==========")
+print("\n===TOUS LES CONTROLES SONT TERMINES ===")
